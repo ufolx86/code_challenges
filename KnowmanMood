@@ -1,0 +1,55 @@
+//https://codesandbox.io/p/sandbox/react-entrevista-victor-forked-r9nrhw?file=%2Fsrc%2FApp.js
+import { useRef, useState, useEffect } from "react";
+import response from "./response.json";
+
+const useGetPersonas = () => {
+  let personasRef = useRef();
+  /*
+     nos interesa devolver la respuesta como un array de personas, con el formato:
+
+     {
+      "personas" : [
+         {
+          "nombre" : "Pepe",
+          "apellidos": "Álvarez López",
+          "numero telefono": 656543241 
+        }
+     ]
+    }
+  */
+  personas = response.data.results.map(([nombre, apellidos, telefono]) => {
+    return {
+      nombre: nombre,
+      apellidos: apellidos,
+      "numero de telefono": telefono,
+    };
+  });
+
+  return { personas };
+};
+
+export default function Component() {
+  const [personas, setPersonas] = useState([]);
+  const response = useGetPersonas();
+
+  useEffect(() => {
+    setPersonas(response.personas);
+    console.log(personas);
+    debugger;
+  }, [response]);
+
+  return <div>Total de personas {personas.length}!</div>;
+}
+
+
+//RESPONSE
+
+//{
+//  "data": {
+//    "results": [
+//      ["Jose", "López", 676543452],
+//      ["Antonio", "Pérez", 636547492],
+//      ["Francisco", "Sánchez", 6963343414]
+//    ]
+//  }
+//}
